@@ -27,5 +27,4 @@ jobs:
           push: true
           platforms: linux/amd64
           tags: |
-            ghcr.io/elifesciences/epp-image-server:latest
             ghcr.io/elifesciences/epp-image-server:preview-${{ github.event.number }}
