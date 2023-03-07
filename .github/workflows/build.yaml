@@ -37,7 +37,9 @@ jobs:
         with:
           context: .
           push: true
-          platforms: linux/amd64,linux/arm64
+          # dependencies needed for building are amd64 only
+          # platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           tags: |
             ghcr.io/elifesciences/epp-image-server:latest
             ghcr.io/elifesciences/epp-image-server:master-${{ steps.commit_sha.outputs.commit_sha }}-${{ steps.date.outputs.date }}
