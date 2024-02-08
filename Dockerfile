@@ -1,7 +1,7 @@
 ARG CANTALOUPE_VERSION=5.0.5
 
 # Build
-FROM ubuntu:22.04@sha256:e9569c25505f33ff72e88b2990887c9dcf230f23259da296eb814fc2b41af999 as build
+FROM ubuntu:23.10@sha256:496a9a44971eb4ac7aa9a218867b7eec98bdef452246c037aa206c841b653e08 as build
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG CANTALOUPE_VERSION
@@ -27,6 +27,8 @@ RUN apt-get install -y --no-install-recommends \
             zlib1g-dev \
             libwebp-dev \
             libimage-exiftool-perl \
+            libgrokj2k1 \
+            grokj2k-tools \
             curl \
             unzip \
             patch
@@ -45,11 +47,6 @@ RUN cp -r cantaloupe-src/docker/Linux-JDK11/image_files/libjpeg-turbo/lib64 /opt
 RUN cp cantaloupe-src/dist/deps/Linux-x86-64/lib/* /usr/lib/
 
 # Install various other dependencies that aren't in apt
-# Install GrokProcessor dependencies
-RUN wget -q https://github.com/GrokImageCompression/grok/releases/download/v7.6.5/libgrokj2k1_7.6.5-1_amd64.deb
-RUN wget -q https://github.com/GrokImageCompression/grok/releases/download/v7.6.5/grokj2k-tools_7.6.5-1_amd64.deb
-RUN dpkg -i ./libgrokj2k1_7.6.5-1_amd64.deb
-RUN dpkg -i --ignore-depends=libjpeg62-turbo ./grokj2k-tools_7.6.5-1_amd64.deb
 
 # Add our patches to the source
 COPY ./patches ./
@@ -64,7 +61,7 @@ RUN cd cantaloupe-src/ && mvn clean package -DskipTests
 
 
 # Package
-FROM ubuntu:22.04@sha256:e9569c25505f33ff72e88b2990887c9dcf230f23259da296eb814fc2b41af999 as image
+FROM ubuntu:23.10@sha256:496a9a44971eb4ac7aa9a218867b7eec98bdef452246c037aa206c841b653e08 as image
 LABEL org.opencontainers.image.source="https://github.com/elifesciences/enhanced-preprints-image-server"
 
 ARG CANTALOUPE_VERSION
@@ -75,7 +72,7 @@ EXPOSE 8182
 # Update packages and install tools
 RUN apt-get update -qy && apt-get dist-upgrade -qy && \
     apt-get install -qy --no-install-recommends curl imagemagick \
-    libopenjp2-tools ffmpeg unzip default-jre-headless && \
+    libopenjp2-tools ffmpeg unzip default-jre-headless adduser && \
     apt-get -qqy autoremove && apt-get -qqy autoclean
 
 # Run non privileged
