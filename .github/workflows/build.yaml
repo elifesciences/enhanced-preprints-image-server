@@ -7,8 +7,6 @@ on:
       - master
     tags:
       - '*'
-    files:
-      - image-server
 
 jobs:
   ci:
@@ -20,6 +18,8 @@ jobs:
         run: docker compose pull --quiet
       - name: Bring up image image-server
         run: docker compose up --wait
+      - name: Test image-server
+        run: curl -fI http://localhost:8182/iiif/2/515698v2_fig1.tif/full/full/0/default.jpg
 
   build-and-push:
     runs-on: ubuntu-22.04
