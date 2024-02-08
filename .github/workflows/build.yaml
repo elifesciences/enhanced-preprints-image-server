@@ -11,6 +11,16 @@ on:
       - image-server
 
 jobs:
+  ci:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      # This seems to work faster than pulling during docker compose up
+      - name: Pull images
+        run: docker compose pull --quiet
+      - name: Bring up image image-server
+        run: docker compose up --wait
+
   build-and-push:
     runs-on: ubuntu-22.04
     if: github.ref == 'refs/heads/master'
