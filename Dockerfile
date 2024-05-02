@@ -1,7 +1,7 @@
 ARG CANTALOUPE_VERSION=5.0.5
 
 # Build
-FROM ubuntu:mantic-20240416@sha256:bfae41cea51761ae450db6080b586a8c35334c756b511c06b393ae565a34cab4 as build
+FROM ubuntu:mantic-20240427@sha256:565d62d2283a7cc4b3d759d9a97a5bfcebeb341166f9076a4df504f8f106cd54 as build
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG CANTALOUPE_VERSION
@@ -61,7 +61,7 @@ RUN cd cantaloupe-src/ && mvn clean package -DskipTests
 
 
 # Package
-FROM ubuntu:mantic-20240416@sha256:bfae41cea51761ae450db6080b586a8c35334c756b511c06b393ae565a34cab4 as image
+FROM ubuntu:mantic-20240427@sha256:565d62d2283a7cc4b3d759d9a97a5bfcebeb341166f9076a4df504f8f106cd54 as image
 LABEL org.opencontainers.image.source="https://github.com/elifesciences/enhanced-preprints-image-server"
 
 ARG CANTALOUPE_VERSION
