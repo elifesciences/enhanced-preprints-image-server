@@ -10,7 +10,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       # This seems to work faster than pulling during docker compose up
@@ -22,7 +22,7 @@ jobs:
         run: curl -fI http://localhost:8182/iiif/2/515698v2_fig1.tif/full/full/0/default.jpg
 
   build-and-push:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     needs: [test]
     if: github.ref == 'refs/heads/master'
     steps:
