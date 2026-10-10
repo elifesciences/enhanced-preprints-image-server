@@ -17,7 +17,7 @@ services:
 
   # Upload sample data
   loadbucket:
-    image: amazon/aws-cli:2.37.11
+    image: amazon/aws-cli:2.37.12
     depends_on:
       s3mock:
         condition: service_healthy
